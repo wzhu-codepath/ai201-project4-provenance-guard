@@ -4,6 +4,7 @@ from unittest.mock import MagicMock, patch
 from signals.first_signal import classify_ai_probability
 from signals.second_signal import classify_stylometric_probability
 from signals.scoring import combine_scores, combine_signal_scores, score_to_verdict
+from signals.labels import generate_label
 
 
 HUMAN_TEXT = (
@@ -82,22 +83,84 @@ class SignalComparisonTests(unittest.TestCase):
 
 
 class ScoringTests(unittest.TestCase):
-    def test_combine_signal_scores_uses_equal_weighting(self) -> None:
-        self.assertEqual(combine_signal_scores(0.0, 1.0), 0.5)
-        self.assertEqual(combine_signal_scores(1.0, 0.0), 0.5)
-        self.assertEqual(combine_signal_scores(0.2, 0.8), 0.5)
+    def test_combine_signal_scores_uses_signal_1_heavy_weighting(self) -> None:
+        self.assertEqual(combine_signal_scores(0.0, 1.0), 0.3)
+        self.assertEqual(combine_signal_scores(1.0, 0.0), 0.7)
+        self.assertEqual(combine_signal_scores(0.2, 0.8), 0.38)
 
     def test_score_to_verdict_matches_documented_thresholds(self) -> None:
         self.assertEqual(score_to_verdict(0.40), "likely_human")
         self.assertEqual(score_to_verdict(0.41), "uncertain")
-        self.assertEqual(score_to_verdict(0.69), "uncertain")
-        self.assertEqual(score_to_verdict(0.70), "likely_ai")
+        self.assertEqual(score_to_verdict(0.67), "uncertain")
+        self.assertEqual(score_to_verdict(0.68), "likely_ai")
 
     def test_combine_scores_returns_confidence_result(self) -> None:
         result = combine_scores(0.10, 0.90)
 
-        self.assertEqual(result.confidence_score, 0.5)
-        self.assertEqual(result.verdict, "uncertain")
+        self.assertEqual(result.confidence_score, 0.34)
+        self.assertEqual(result.verdict, "likely_human")
+
+
+class TransparencyLabelTests(unittest.TestCase):
+    def test_generate_label_variant_a_likely_human(self) -> None:
+        """Test Variant A: score 0.00-0.40 returns 'Likely Human' label."""
+        # Test lower boundary
+        result = generate_label(0.00)
+        self.assertEqual(result["variant"], "A")
+        self.assertEqual(result["verdict"], "likely_human")
+        self.assertIn("human likely wrote", result["label"])
+        
+        # Test mid-range
+        result = generate_label(0.20)
+        self.assertEqual(result["variant"], "A")
+        self.assertIn("human likely wrote", result["label"])
+        
+        # Test upper boundary
+        result = generate_label(0.40)
+        self.assertEqual(result["variant"], "A")
+        self.assertIn("human likely wrote", result["label"])
+
+    def test_generate_label_variant_b_uncertain(self) -> None:
+        """Test Variant B: score 0.41-0.67 returns 'Uncertain' label."""
+        # Test lower boundary
+        result = generate_label(0.41)
+        self.assertEqual(result["variant"], "B")
+        self.assertEqual(result["verdict"], "uncertain")
+        self.assertIn("human or an AI", result["label"])
+        
+        # Test mid-range
+        result = generate_label(0.55)
+        self.assertEqual(result["variant"], "B")
+        self.assertIn("human or an AI", result["label"])
+        
+        # Test upper boundary
+        result = generate_label(0.67)
+        self.assertEqual(result["variant"], "B")
+        self.assertIn("human or an AI", result["label"])
+
+    def test_generate_label_variant_c_likely_ai(self) -> None:
+        """Test Variant C: score 0.68-1.00 returns 'Likely AI' label."""
+        # Test lower boundary
+        result = generate_label(0.68)
+        self.assertEqual(result["variant"], "C")
+        self.assertEqual(result["verdict"], "likely_ai")
+        self.assertIn("AI agent likely wrote", result["label"])
+        
+        # Test mid-range
+        result = generate_label(0.85)
+        self.assertEqual(result["variant"], "C")
+        self.assertIn("AI agent likely wrote", result["label"])
+        
+        # Test upper boundary
+        result = generate_label(1.00)
+        self.assertEqual(result["variant"], "C")
+        self.assertIn("AI agent likely wrote", result["label"])
+
+    def test_generate_label_includes_appeal_message(self) -> None:
+        """Test that all variants include the appeal statement."""
+        for score in [0.20, 0.55, 0.85]:
+            result = generate_label(score)
+            self.assertIn("appeal", result["label"].lower())
 
 
 class VerificationTests(unittest.TestCase):
@@ -312,6 +375,7 @@ class AuditLogTests(unittest.TestCase):
                 self.assertIn("signal_2_score", entry)
                 self.assertIn("combined_confidence_score", entry)
                 self.assertIn("combined_attribution_result", entry)
+                self.assertIn("appeal_filed", entry)
 
                 # Verify the values
                 self.assertEqual(entry["content_id"], "test-001")
@@ -319,6 +383,7 @@ class AuditLogTests(unittest.TestCase):
                 self.assertEqual(entry["signal_2_score"], 0.65)
                 self.assertEqual(entry["combined_confidence_score"], 0.70)
                 self.assertEqual(entry["combined_attribution_result"], "likely_ai")
+                self.assertFalse(entry["appeal_filed"])
         finally:
             # Clean up
             Path(tmp_path).unlink(missing_ok=True)
@@ -352,6 +417,43 @@ class AuditLogTests(unittest.TestCase):
                 self.assertEqual(entry["signal_2_score"], 0.55)
                 self.assertIsNone(entry["combined_confidence_score"])
                 self.assertEqual(entry["combined_attribution_result"], "unknown")
+                self.assertFalse(entry["appeal_filed"])
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
+
+    def test_audit_log_marks_appeals_explicitly(self) -> None:
+        """Verify appeal audit entries explicitly record that an appeal was filed."""
+        from app import write_audit_log
+        from pathlib import Path
+        import json
+        import tempfile
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as tmp:
+            tmp_path = tmp.name
+
+        try:
+            with patch("app.AUDIT_LOG_PATH", Path(tmp_path)):
+                write_audit_log(
+                    content_id="test-appeal-001",
+                    attribution_result="likely_human",
+                    signal_1_score=0.25,
+                    signal_2_score=0.35,
+                    confidence_score=0.30,
+                    status="under_review",
+                    appeal_filed=True,
+                    appeal_statement="Please review this submission again.",
+                )
+
+                with open(tmp_path, "r") as f:
+                    entry = json.loads(f.readline())
+
+                self.assertTrue(entry["appeal_filed"])
+                self.assertEqual(entry["status"], "under_review")
+                self.assertEqual(entry["content_id"], "test-appeal-001")
+                self.assertEqual(
+                    entry["appeal_statement"],
+                    "Please review this submission again.",
+                )
         finally:
             Path(tmp_path).unlink(missing_ok=True)
 

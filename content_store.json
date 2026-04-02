@@ -1,0 +1,134 @@
+{
+  "2703f436-4cce-455b-9419-8171acd55ebf": {
+    "content_id": "2703f436-4cce-455b-9419-8171acd55ebf",
+    "creator_id": "u2321",
+    "original_decision": {
+      "combined_attribution_result": "uncertain",
+      "combined_confidence_score": 0.6802654058012552,
+      "signal_1_score": 0.85,
+      "signal_2_score": 0.2842180193375171
+    },
+    "status": "classified",
+    "updated_at": "2026-04-02T23:12:14.076773+00:00"
+  },
+  "2cdd8a21-d764-4191-ab50-2db49d4aae8a": {
+    "content_id": "2cdd8a21-d764-4191-ab50-2db49d4aae8a",
+    "creator_id": "u1",
+    "original_decision": {
+      "combined_attribution_result": "uncertain",
+      "combined_confidence_score": 0.561692757738754,
+      "signal_1_score": 0.85,
+      "signal_2_score": 0.27338551547750806
+    },
+    "status": "classified",
+    "updated_at": "2026-04-02T23:00:30.695227+00:00"
+  },
+  "36ffd69a-3db5-4576-aa6c-3f9244813422": {
+    "content_id": "36ffd69a-3db5-4576-aa6c-3f9244813422",
+    "creator_id": "u2321",
+    "original_decision": {
+      "combined_attribution_result": "likely_human",
+      "combined_confidence_score": 0.078125,
+      "signal_1_score": 0.0,
+      "signal_2_score": 0.2604166666666667
+    },
+    "status": "classified",
+    "updated_at": "2026-04-02T23:18:31.298307+00:00"
+  },
+  "43ae1812-a690-4d3a-a70d-d1439ec31843": {
+    "content_id": "43ae1812-a690-4d3a-a70d-d1439ec31843",
+    "creator_id": "u2321",
+    "original_decision": {
+      "combined_attribution_result": "likely_ai",
+      "combined_confidence_score": 0.6802654058012552,
+      "signal_1_score": 0.85,
+      "signal_2_score": 0.2842180193375171
+    },
+    "status": "classified",
+    "updated_at": "2026-04-02T23:17:10.635798+00:00"
+  },
+  "6570ed6d-b26b-4a58-b50d-57452a628fef": {
+    "content_id": "6570ed6d-b26b-4a58-b50d-57452a628fef",
+    "creator_id": "u2321",
+    "original_decision": {
+      "combined_attribution_result": "uncertain",
+      "combined_confidence_score": 0.6802654058012552,
+      "signal_1_score": 0.85,
+      "signal_2_score": 0.2842180193375171
+    },
+    "status": "classified",
+    "updated_at": "2026-04-02T23:10:41.366813+00:00"
+  },
+  "74b964bd-2483-4ff9-8b7d-ee84d7d84f02": {
+    "content_id": "74b964bd-2483-4ff9-8b7d-ee84d7d84f02",
+    "creator_id": "u2321",
+    "original_decision": {
+      "combined_attribution_result": "uncertain",
+      "combined_confidence_score": 0.5888013896085843,
+      "signal_1_score": 0.73,
+      "signal_2_score": 0.2593379653619476
+    },
+    "status": "classified",
+    "updated_at": "2026-04-02T23:18:21.739373+00:00"
+  },
+  "85883c02-f6b3-47aa-8c5a-cf19519f9a71": {
+    "content_id": "85883c02-f6b3-47aa-8c5a-cf19519f9a71",
+    "creator_id": "u2321",
+    "original_decision": {
+      "combined_attribution_result": "uncertain",
+      "combined_confidence_score": 0.4946689826809738,
+      "signal_1_score": 0.73,
+      "signal_2_score": 0.2593379653619476
+    },
+    "status": "classified",
+    "updated_at": "2026-04-02T23:02:54.619332+00:00"
+  },
+  "89f7b816-5745-405a-a3e9-0f782ee6eb10": {
+    "content_id": "89f7b816-5745-405a-a3e9-0f782ee6eb10",
+    "creator_id": "u2321",
+    "original_decision": {
+      "combined_attribution_result": "likely_ai",
+      "combined_confidence_score": 0.6802654058012552,
+      "signal_1_score": 0.85,
+      "signal_2_score": 0.2842180193375171
+    },
+    "status": "classified",
+    "updated_at": "2026-04-02T23:18:03.765436+00:00"
+  },
+  "c12b6a66-cc32-4250-b9f6-119367266a1d": {
+    "content_id": "c12b6a66-cc32-4250-b9f6-119367266a1d",
+    "creator_id": "u2321",
+    "original_decision": {
+      "combined_attribution_result": "likely_human",
+      "combined_confidence_score": 0.13020833333333334,
+      "signal_1_score": 0.0,
+      "signal_2_score": 0.2604166666666667
+    },
+    "status": "classified",
+    "updated_at": "2026-04-02T23:00:56.343562+00:00"
+  },
+  "d50a0b8b-d0c5-4276-a099-a13ca2beba6f": {
+    "content_id": "d50a0b8b-d0c5-4276-a099-a13ca2beba6f",
+    "creator_id": "u2321",
+    "original_decision": {
+      "combined_attribution_result": "uncertain",
+      "combined_confidence_score": 0.5671090096687585,
+      "signal_1_score": 0.85,
+      "signal_2_score": 0.2842180193375171
+    },
+    "status": "classified",
+    "updated_at": "2026-04-02T23:06:04.866387+00:00"
+  },
+  "e80da54c-48dc-4e3a-a6fa-4d0787a8fbc4": {
+    "content_id": "e80da54c-48dc-4e3a-a6fa-4d0787a8fbc4",
+    "creator_id": "u2321",
+    "original_decision": {
+      "combined_attribution_result": "uncertain",
+      "combined_confidence_score": 0.6802654058012552,
+      "signal_1_score": 0.85,
+      "signal_2_score": 0.2842180193375171
+    },
+    "status": "classified",
+    "updated_at": "2026-04-02T23:11:17.560617+00:00"
+  }
+}

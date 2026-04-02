@@ -10,15 +10,15 @@ class ConfidenceResult:
 
 
 def combine_signal_scores(signal_1_score: float, signal_2_score: float) -> float:
-    """Combine the two signal scores using the planned 50/50 weighting."""
-    combined_score = (signal_1_score * 0.5) + (signal_2_score * 0.5)
+    """Combine signal scores with a 70/30 weighting favoring Signal 1."""
+    combined_score = (signal_1_score * 0.7) + (signal_2_score * 0.3)
     return max(0.0, min(1.0, combined_score))
 
 
 def score_to_verdict(confidence_score: float) -> str:
     if confidence_score <= 0.40:
         return "likely_human"
-    if confidence_score < 0.70:
+    if confidence_score < 0.68:
         return "uncertain"
     return "likely_ai"
 
