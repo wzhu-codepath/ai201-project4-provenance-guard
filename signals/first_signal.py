@@ -5,7 +5,6 @@ from typing import Any
 from dotenv import find_dotenv, load_dotenv
 from groq import Groq
 
-# Load environment variables from .env if present.
 load_dotenv(find_dotenv(), override=False)
 
 
