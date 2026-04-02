@@ -7,6 +7,8 @@ from flask import Flask, jsonify, request
 from dotenv import find_dotenv, load_dotenv
 
 from signals.first_signal import classify_ai_probability
+from signals.scoring import combine_scores
+from signals.second_signal import classify_stylometric_probability
 
 load_dotenv(find_dotenv(), override=False)
 
@@ -15,12 +17,21 @@ app = Flask(__name__)
 AUDIT_LOG_PATH = Path(__file__).resolve().parent / "audit_log.jsonl"
 
 
-def write_audit_log(content_id: str, signal_1_result: str) -> None:
-    """Append one structured audit entry as JSONL."""
+def write_audit_log(
+    content_id: str,
+    attribution_result: str,
+    signal_1_score: float | None = None,
+    signal_2_score: float | None = None,
+    confidence_score: float | None = None,
+) -> None:
+    """Append one structured audit entry as JSONL with both signals and combined confidence."""
     entry = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "content_id": content_id,
-        "signal_1_result": signal_1_result,
+        "signal_1_score": signal_1_score,
+        "signal_2_score": signal_2_score,
+        "combined_confidence_score": confidence_score,
+        "combined_attribution_result": attribution_result,
     }
     with AUDIT_LOG_PATH.open("a", encoding="utf-8") as log_file:
         log_file.write(json.dumps(entry) + "\n")
@@ -55,14 +66,33 @@ def submit() -> tuple:
 
     try:
         signal_1_score = classify_ai_probability(text)
-        attribution_result = "likely_ai" if signal_1_score >= 0.5 else "likely_human"
         signal_1_error = None
     except Exception as exc:
         signal_1_score = None
-        attribution_result = "unknown"
         signal_1_error = str(exc)
 
-    write_audit_log(content_id, attribution_result)
+    try:
+        signal_2_score = classify_stylometric_probability(text)
+        signal_2_error = None
+    except Exception as exc:
+        signal_2_score = None
+        signal_2_error = str(exc)
+
+    if signal_1_score is not None and signal_2_score is not None:
+        confidence_result = combine_scores(signal_1_score, signal_2_score)
+        attribution_result = confidence_result.verdict
+        confidence_score = confidence_result.confidence_score
+    else:
+        confidence_score = None
+        attribution_result = "unknown"
+
+    write_audit_log(
+        content_id,
+        attribution_result,
+        signal_1_score=signal_1_score,
+        signal_2_score=signal_2_score,
+        confidence_score=confidence_score,
+    )
 
     return (
         jsonify(
@@ -71,11 +101,16 @@ def submit() -> tuple:
                 "message": "submit route is working",
                 "content_id": content_id,
                 "creator_id": creator_id,
-                "signal_1_attribution_result": attribution_result,
+                "combined_attribution_result": attribution_result,
+                "signal_1_attribution_result": None if signal_1_score is None else (
+                    "likely_ai" if signal_1_score >= 0.5 else "likely_human"
+                ),
                 "signal_1_score": signal_1_score,
                 "signal_1_error": signal_1_error,
-                "confidence_score": 0.5,
-                "label": "placeholder_label",
+                "signal_2_score": signal_2_score,
+                "signal_2_error": signal_2_error,
+                "confidence_score": confidence_score,
+                "label": attribution_result,
             }
         ),
         200,
