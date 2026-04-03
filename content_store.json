@@ -60,16 +60,22 @@
     "updated_at": "2026-04-02T23:10:41.366813+00:00"
   },
   "74b964bd-2483-4ff9-8b7d-ee84d7d84f02": {
+    "appeal_statement": "Its just wrong",
     "content_id": "74b964bd-2483-4ff9-8b7d-ee84d7d84f02",
     "creator_id": "u2321",
     "original_decision": {
+      "appeal_filed": false,
       "combined_attribution_result": "uncertain",
       "combined_confidence_score": 0.5888013896085843,
+      "content_id": "74b964bd-2483-4ff9-8b7d-ee84d7d84f02",
+      "creator_id": "u2321",
       "signal_1_score": 0.73,
-      "signal_2_score": 0.2593379653619476
+      "signal_2_score": 0.2593379653619476,
+      "status": "classified",
+      "timestamp": "2026-04-02T23:18:21.730941+00:00"
     },
-    "status": "classified",
-    "updated_at": "2026-04-02T23:18:21.739373+00:00"
+    "status": "under_review",
+    "updated_at": "2026-04-03T00:29:50.950272+00:00"
   },
   "85883c02-f6b3-47aa-8c5a-cf19519f9a71": {
     "content_id": "85883c02-f6b3-47aa-8c5a-cf19519f9a71",

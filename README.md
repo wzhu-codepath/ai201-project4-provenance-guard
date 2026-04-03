@@ -239,3 +239,6 @@ The goal of the current version is to show a transparent, explainable pipeline. 
 ## AI Usage
 1. I had directed the AI to provide me with sample curl commands I could use, but it had failed in providing me that.
 2. I had use Ai to help create the variants mockup and it worked out pretty well. 
+
+## Demo Video
+https://www.loom.com/share/a0404a081a114a9b80d3f1bca0a0aa11
