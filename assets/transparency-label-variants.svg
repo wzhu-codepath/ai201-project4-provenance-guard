@@ -1,0 +1,30 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" fill="#F4F6F8"/>
+
+  <text x="60" y="70" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700" fill="#1F2937">Provenance Guard Transparency Labels (Mockup)</text>
+  <text x="60" y="104" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#4B5563">CLI output can be rendered into this full label format in a UI or report view.</text>
+
+  <rect x="60" y="140" width="1080" height="176" rx="16" fill="#FFFFFF" stroke="#D1D5DB"/>
+  <rect x="60" y="140" width="10" height="176" rx="5" fill="#16A34A"/>
+  <text x="90" y="184" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#14532D">Variant A - High-confidence human</text>
+  <text x="90" y="216" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#111827">Verdict: likely_human</text>
+  <text x="90" y="244" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#111827">Confidence score: 0.22 (low AI likelihood)</text>
+  <text x="90" y="272" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#111827">Label text: A human likely wrote this text. If something seems wrong, an appeal can be submitted.</text>
+  <text x="90" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#374151">Threshold band: 0.00 to 0.40</text>
+
+  <rect x="60" y="338" width="1080" height="176" rx="16" fill="#FFFFFF" stroke="#D1D5DB"/>
+  <rect x="60" y="338" width="10" height="176" rx="5" fill="#D97706"/>
+  <text x="90" y="382" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#78350F">Variant B - Uncertain</text>
+  <text x="90" y="414" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#111827">Verdict: uncertain</text>
+  <text x="90" y="442" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#111827">Confidence score: 0.54 (mixed evidence)</text>
+  <text x="90" y="470" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#111827">Label text: Unsure if a human or an AI agent wrote it. If something seems wrong, an appeal can be submitted.</text>
+  <text x="90" y="498" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#374151">Threshold band: 0.41 to 0.67</text>
+
+  <rect x="60" y="536" width="1080" height="176" rx="16" fill="#FFFFFF" stroke="#D1D5DB"/>
+  <rect x="60" y="536" width="10" height="176" rx="5" fill="#DC2626"/>
+  <text x="90" y="580" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#7F1D1D">Variant C - High-confidence AI</text>
+  <text x="90" y="612" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#111827">Verdict: likely_ai</text>
+  <text x="90" y="640" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#111827">Confidence score: 0.87 (high AI likelihood)</text>
+  <text x="90" y="668" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#111827">Label text: An AI agent likely wrote this text. If something seems wrong, an appeal can be submitted.</text>
+  <text x="90" y="696" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#374151">Threshold band: 0.68 to 1.00</text>
+</svg>
